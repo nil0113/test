@@ -52,8 +52,15 @@ model Note {
   id       Int     @id @default(autoincrement())
   title    String  @default("Untitled")
   content  String  @default("")
-  color    String  @default("#ffffff")
+  color    String  @default("#FFF6A5") // default sticky yellow
   isPinned Boolean @default(false)
+
+  // NEW — board layout
+  x      Int @default(40)
+  y      Int @default(40)
+  width  Int @default(260)
+  height Int @default(180)
+  zIndex Int @default(1)
 
   task      Task?    @relation(fields: [taskId], references: [id])
   taskId    Int?
