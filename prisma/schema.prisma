@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String
+  project     String?
+  energy      String? // deep | light | admin
+  durationMin Int?
+  status      String    @default("todo") // todo | doing | done
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  sessions    Session[]
+  subtasks    Subtask[]
+}
+
+model Subtask {
+  id        Int       @id @default(autoincrement())
+  title     String
+  status    String    @default("todo") // todo | doing | done
+  order     Int       @default(0)
+  task      Task      @relation(fields: [taskId], references: [id])
+  taskId    Int
+  sessions  Session[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Session {
+  id          Int       @id @default(autoincrement())
+  type        String? // 'focus' | 'break'
+  task        Task?     @relation(fields: [taskId], references: [id])
+  taskId      Int?
+  subtask     Subtask?  @relation(fields: [subtaskId], references: [id])
+  subtaskId   Int?
+  startedAt   DateTime
+  endedAt     DateTime?
+  durationSec Int?
+  createdAt   DateTime  @default(now())
+}
