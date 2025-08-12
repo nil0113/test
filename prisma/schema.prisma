@@ -11,7 +11,7 @@ model Task {
   id          Int       @id @default(autoincrement())
   title       String
   project     String?
-  energy      String? // deep | light | admin
+  energy      String?
   durationMin Int?
   status      String    @default("todo") // todo | doing | done
   dueDate     DateTime?
@@ -19,6 +19,7 @@ model Task {
   updatedAt   DateTime  @updatedAt
   sessions    Session[]
   subtasks    Subtask[]
+  notes       Note[]
 }
 
 model Subtask {
@@ -29,13 +30,14 @@ model Subtask {
   task      Task      @relation(fields: [taskId], references: [id])
   taskId    Int
   sessions  Session[]
+  notes     Note[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
 
 model Session {
   id          Int       @id @default(autoincrement())
-  type        String? // 'focus' | 'break'
+  type        String? // 'track' | 'focus' | 'break' | 'complete'
   task        Task?     @relation(fields: [taskId], references: [id])
   taskId      Int?
   subtask     Subtask?  @relation(fields: [subtaskId], references: [id])
@@ -44,4 +46,20 @@ model Session {
   endedAt     DateTime?
   durationSec Int?
   createdAt   DateTime  @default(now())
+}
+
+model Note {
+  id       Int     @id @default(autoincrement())
+  title    String  @default("Untitled")
+  content  String  @default("")
+  color    String  @default("#ffffff")
+  isPinned Boolean @default(false)
+
+  task      Task?    @relation(fields: [taskId], references: [id])
+  taskId    Int?
+  subtask   Subtask? @relation(fields: [subtaskId], references: [id])
+  subtaskId Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,12 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-:root{--bg1:#0b1026;--bg2:#12183a}
-html,body{height:100%}
-body{min-height:100%;color:white;background:
-  radial-gradient(1100px 600px at 20% 10%, rgba(91,140,255,.15), transparent 60%),
-  radial-gradient(900px 500px at 90% 20%, rgba(106,147,255,.12), transparent 60%),
-  linear-gradient(120deg,var(--bg1),var(--bg2))}
-.glass{@apply bg-white/10 border border-white/10 shadow-soft backdrop-blur rounded-2xl}
-.container{@apply max-w-7xl mx-auto px-4}
-.label{@apply text-sm text-white/70}
+
+/* KaTeX for math in Markdown */
+@import 'katex/dist/katex.min.css';
+
+:root { --bg1:#0b1026; --bg2:#12183a; }
+html, body { height: 100%; }
+body {
+  min-height: 100%;
+  color: white;
+  background:
+    radial-gradient(1100px 600px at 20% 10%, rgba(91,140,255,0.15), transparent 60%),
+    radial-gradient(900px 500px at 90% 20%, rgba(106,147,255,0.12), transparent 60%),
+    linear-gradient(120deg, var(--bg1), var(--bg2));
+}
+.glass { @apply bg-white/10 border border-white/10 shadow-soft backdrop-blur rounded-2xl; }
+.container { @apply max-w-7xl mx-auto px-4; }
+.label { @apply text-sm text-white/70; }
+
+/* Whiteboard canvas look (subtle dot grid) */
+.whiteboard {
+  background-image:
+    radial-gradient(rgba(255,255,255,0.25) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  background-position: 0 0, 8px 8px;
+  background-size: 16px 16px, 16px 16px;
+}
